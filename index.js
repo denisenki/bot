@@ -14,46 +14,44 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 bot.start((ctx) => ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}!`))
 // Обработка команды /help
 bot.help((ctx) => ctx.reply(my_const.commands))
-// Обработка команды /course
-bot.command('course', async (ctx) => {
-    try {
-        await ctx.replyWithHTML('<b>Курсы</b>', Markup.keyboard(
-            [
-                [Markup.button.callback('Дух', 'btn_1'), Markup.button.callback('Душа', 'btn_2'), Markup.button.callback('Тело', 'btn_3')]
-            ]
-        ))
-    } catch (e) {
-        console.error(e)
-    }
+
+bot.hears('Семинары', (ctx) => ctx.reply('/', Markup.keyboard(
+    [
+        [Markup.button.callback('Дух', 'btn_1'), Markup.button.callback('Душа2', 'btn_2'), Markup.button.callback('Тело', 'btn_3')]
+    ]
+)
+)
+)
+
+bot.hears('Дух', (ctx) => ctx.reply('//', Markup.keyboard(
+    [
+        [Markup.button.callback('Дух33', 'd_1'), Markup.button.callback('Дух34', 'd2_2'), Markup.button.callback('Дух35', 'd3_3')],
+        [Markup.button.callback('Дух36', 'd4_1'), Markup.button.callback('Дух37', 'd5_2'), Markup.button.callback('Дух38', 'd6_3')],
+        [Markup.button.callback('Дух39', 'd7_1'), Markup.button.callback('Дух40', 'd8_2'), Markup.button.callback('Дух41', 'd9_3')],
+        [Markup.button.callback('Назад', 'dff_1')],
+    ]
+)
+)
+)
+
+bot.action('dff_1', (ctx) => {
+    return ctx.reply('Что')
 })
-/**
- * Функция для отправки сообщения ботом
- * @param {String} id_btn Идентификатор кнопки для обработки
- * @param {String} src_img Путь к изображению, или false чтобы отправить только текст
- * @param {String} text Текстовое сообщение для отправки
- * @param {Boolean} preview Блокировать превью у ссылок или нет, true - блокировать, false - нет
- */
-function addActionBot(id_btn, src_img, text, preview) {
-    bot.action(id_btn, async (ctx) => {
-        try {
-            await ctx.answerCbQuery()
-            if (src_img !== false) {
-                await ctx.replyWithPhoto({
-                    source: src_img
-                })
-            }
-            await ctx.replyWithHTML(text, {
-                disable_web_page_preview: preview
-            })
-        } catch (e) {
-            console.error(e)
-        }
-    })
-}
-// Обработчик кнопок с помощью функции
-addActionBot('btn_1', false, my_const.text1, true)
-addActionBot('btn_2', false, my_const.text2, true)
-addActionBot('btn_3', false, my_const.text3, false)
+// bot.hears('Дух', (ctx) => ctx.reply(my_const.duh_1))
+
+// Обработка команды /course
+// bot.command('course', async (ctx) => {
+//     try {
+//         await ctx.replyWithHTML('<b>Курввсы</b>', Markup.keyboard(
+//             [
+//                 [Markup.button.callback('Дух', 'btn_1'), Markup.button.callback('Душа', 'btn_2'), Markup.button.callback('Тело', 'btn_3')]
+//             ]
+//         ))
+//     } catch (e) {
+//         console.error(e)
+//     }
+// })
+
 
 // Запустить бота
 bot.launch()
